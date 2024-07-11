@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
+
+import { API } from "@/services";
 
 interface History {
   message: string;
@@ -11,14 +12,18 @@ interface History {
 
 function useChat() {
   const bottomRef = useRef<HTMLSpanElement>(null);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm<{ message: string }>();
   const [history, setHistory] = useState<History[]>([]);
 
-  const onSubmit = handleSubmit(({ message }) => {
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const onSubmit = handleSubmit(async ({ message }) => {
     reset();
 
-    setHistory([
-      ...history,
+    setHistory((previousState) => [
+      ...previousState,
       {
         message,
         createdAt: new Date(),
@@ -26,10 +31,28 @@ function useChat() {
         origin: "user",
       },
     ]);
+
+    getBotMessage(message);
   });
 
+  const getBotMessage = async (message: string) => {
+    const response = await API.post<{ content: string }>("/api/chat", {
+      message,
+    });
+
+    setHistory((previousState) => [
+      ...previousState,
+      {
+        message: response.data.content,
+        createdAt: new Date(),
+        id: crypto.randomUUID(),
+        origin: "bot",
+      },
+    ]);
+  };
+
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom();
   }, [history]);
 
   return { register, onSubmit, history, bottomRef };
