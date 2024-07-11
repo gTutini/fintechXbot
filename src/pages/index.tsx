@@ -16,7 +16,7 @@ export default function Home() {
           <button className="btn btn-square">
             <Chevron />
           </button>
-          <h2 className="text-4xl font-semibold poppins-500">FintechX</h2>
+          <h2 className="text-3xl poppins-200">FintechX</h2>
           <button className="btn btn-square btn-ghost">
             <Dots />
           </button>
@@ -30,7 +30,11 @@ export default function Home() {
               <BotMessage key={message.id} message={message} />
             );
           })}
-
+          {isLoading && (
+            <div className="flex justify-center">
+              <span className="loading loading-dots loading-lg" />
+            </div>
+          )}
           <span ref={bottomRef} />
         </section>
 
@@ -49,7 +53,7 @@ export default function Home() {
               disabled={isLoading}
             >
               {isLoading ? (
-                <span className="loading loading-spinner loading-md" />
+                <span className="loading loading-ring loading-md" />
               ) : (
                 <Send />
               )}
