@@ -30,7 +30,6 @@ function useBotMessage(message: string) {
   const scrollToBottom = () => {
     window.scrollTo({
       top: bottomRef.current?.offsetTop,
-      behavior: "smooth",
     });
   };
 
