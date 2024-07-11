@@ -1,4 +1,4 @@
-import { Chevron, Dots, Logo, Send } from "@/assets";
+import { Chevron, Logo, Send } from "@/assets";
 import { useChat } from "@/hooks";
 import Head from "next/head";
 import { BotMessage, UserMessage } from "@/components";
