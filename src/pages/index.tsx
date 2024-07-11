@@ -1,4 +1,4 @@
-import { Chevron, Dots, Send } from "@/assets";
+import { Chevron, Dots, Logo, Send } from "@/assets";
 import { useChat } from "@/hooks";
 import Head from "next/head";
 import { BotMessage, UserMessage } from "@/components";
@@ -23,6 +23,10 @@ export default function Home() {
         </section>
 
         <section className="min-h-screen max-w-screen-md flex flex-col justify-end py-24  m-auto w-full">
+          <div className="flex items-center flex-col mb-10">
+            <Logo />
+            <h1 className="urbanist-600 text-xl">Bot de Atendimento</h1>
+          </div>
           {history.map((message) => {
             return message.origin === "user" ? (
               <UserMessage key={message.id} message={message} />

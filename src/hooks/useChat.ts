@@ -32,7 +32,7 @@ function useChat() {
       ...prevState,
       {
         message:
-          "Bem vindo! Sou o bot de ajuda da FintechX. Como posso ajudar?",
+          "Bem vindo! Sou o bot de atendimento da FintechX. Como posso ajudar?",
         id: crypto.randomUUID(),
         origin: "bot",
       },
