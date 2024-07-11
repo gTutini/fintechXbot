@@ -2,37 +2,57 @@ import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { API } from "@/services";
+import { useBoolean } from "usehooks-ts";
 
-interface History {
+export interface Message {
   message: string;
-  createdAt: Date;
   id: string;
   origin: "user" | "bot";
 }
 
 function useChat() {
   const bottomRef = useRef<HTMLSpanElement>(null);
-  const { register, handleSubmit, reset } = useForm<{ message: string }>();
-  const [history, setHistory] = useState<History[]>([]);
+  const { register, handleSubmit, reset, setFocus } = useForm<{
+    message: string;
+  }>();
+  const [history, setHistory] = useState<Message[]>([]);
+  const {
+    value: isLoading,
+    setFalse: finishedLoading,
+    setTrue: startLoading,
+  } = useBoolean(false);
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    setFocus("message");
+  };
+
+  const welcomeMessage = () => {
+    setHistory((prevState) => [
+      ...prevState,
+      {
+        message:
+          "Bem vindo! Sou o bot de ajuda da FintechX. Como posso ajudar?",
+        id: crypto.randomUUID(),
+        origin: "bot",
+      },
+    ]);
   };
 
   const onSubmit = handleSubmit(async ({ message }) => {
     reset();
+    startLoading();
 
-    setHistory((previousState) => [
-      ...previousState,
+    setHistory((prevState) => [
+      ...prevState,
       {
         message,
-        createdAt: new Date(),
         id: crypto.randomUUID(),
         origin: "user",
       },
     ]);
 
-    getBotMessage(message);
+    await getBotMessage(message);
   });
 
   const getBotMessage = async (message: string) => {
@@ -40,22 +60,27 @@ function useChat() {
       message,
     });
 
-    setHistory((previousState) => [
-      ...previousState,
+    setHistory((prevState) => [
+      ...prevState,
       {
         message: response.data.content,
-        createdAt: new Date(),
+
         id: crypto.randomUUID(),
         origin: "bot",
       },
     ]);
+    finishedLoading();
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [history]);
 
-  return { register, onSubmit, history, bottomRef };
+  useEffect(() => {
+    welcomeMessage();
+  }, []);
+
+  return { register, onSubmit, history, bottomRef, isLoading };
 }
 
 export { useChat };
