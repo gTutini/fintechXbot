@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function useBotMessage(message: string) {
+  const bottomRef = useRef<HTMLSpanElement>(null);
   const [, setCompletedTyping] = useState(false);
   const [displayResponse, setDisplayResponse] = useState("");
 
@@ -15,6 +16,8 @@ function useBotMessage(message: string) {
 
       i++;
 
+      scrollToBottom();
+
       if (i > stringResponse.length) {
         clearInterval(intervalId);
         setCompletedTyping(true);
@@ -24,7 +27,14 @@ function useBotMessage(message: string) {
     return () => clearInterval(intervalId);
   }, [message]);
 
-  return { displayResponse };
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: bottomRef.current?.offsetTop,
+      behavior: "smooth",
+    });
+  };
+
+  return { displayResponse, bottomRef };
 }
 
 export { useBotMessage };
