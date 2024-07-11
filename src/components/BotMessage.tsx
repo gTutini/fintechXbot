@@ -11,7 +11,9 @@ function BotMessage({ message }: { message: Message }) {
         className="mr-2"
         alt="bot-profile"
       />
-      <p className="text-xs urbanist-500 mt-4">{message.message}</p>
+      <p className="text-xs urbanist-500 mt-4 whitespace-pre-line">
+        {message.message}
+      </p>
     </div>
   );
 }

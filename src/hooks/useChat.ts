@@ -64,7 +64,6 @@ function useChat() {
       ...prevState,
       {
         message: response.data.content,
-
         id: crypto.randomUUID(),
         origin: "bot",
       },

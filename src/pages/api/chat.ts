@@ -51,58 +51,60 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    // const openai = new OpenAI({
-    //   apiKey: process.env.OPENAI_KEY,
-    // });
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_KEY,
+    });
 
-    // const response = await openai.chat.completions.create({
-    //   model: "gpt-3.5-turbo",
-    //   max_tokens: 300,
-    //   messages: [
-    //     {
-    //       role: "system",
-    //       content: "You are a helpfull assistant",
-    //     },
-    //     {
-    //       role: "user",
-    //       content: baseData,
-    //     },
-    //     {
-    //       role: "user",
-    //       content: "Quais os horários de atendimento da FintechX?",
-    //     },
-    //   ],
-    // });
-
-    console.log(req.body.contents);
-
-    const response = {
-      object: "chat.completion",
-      created: 1720634562,
-      model: "gpt-3.5-turbo-0125",
-      choices: [
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      max_tokens: 300,
+      messages: [
         {
-          index: 0,
-          message: {
-            role: "assistant",
-            content:
-              "A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.",
-          },
-          logprobs: null,
-          finish_reason: "stop",
+          role: "system",
+          content: "You are a helpfull assistant",
+        },
+        {
+          role: "user",
+          content: baseData,
+        },
+        {
+          role: "user",
+          content: req.body.message,
         },
       ],
-      usage: {
-        prompt_tokens: 715,
-        completion_tokens: 24,
-        total_tokens: 739,
-      },
-      system_fingerprint: null,
-    };
+    });
 
-    await delay(2000);
+    // console.log(req.body.message);
+
+    // const response = {
+    //   object: "chat.completion",
+    //   created: 1720634562,
+    //   model: "gpt-3.5-turbo-0125",
+    //   choices: [
+    //     {
+    //       index: 0,
+    //       message: {
+    //         role: "assistant",
+    //         content:
+    //           "A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.",
+    //       },
+    //       logprobs: null,
+    //       finish_reason: "stop",
+    //     },
+    //   ],
+    //   usage: {
+    //     prompt_tokens: 715,
+    //     completion_tokens: 24,
+    //     total_tokens: 739,
+    //   },
+    //   system_fingerprint: null,
+    // };
+
+    // await delay(2000);
 
     res.status(200).json({ content: response.choices[0].message.content });
+
+    return;
   }
 
   res.status(405).send({ message: "Only POST requests allowed" });
