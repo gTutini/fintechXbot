@@ -57,7 +57,7 @@ export default async function handler(
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      max_tokens: 300,
+      max_tokens: 500,
       messages: [
         {
           role: "system",
@@ -74,8 +74,6 @@ export default async function handler(
       ],
     });
 
-    // console.log(req.body.message);
-
     // const response = {
     //   object: "chat.completion",
     //   created: 1720634562,
@@ -86,7 +84,7 @@ export default async function handler(
     //       message: {
     //         role: "assistant",
     //         content:
-    //           "A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.",
+    //           "A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.A FintechX atende de segunda-feira a sábado, das 08:00 às 20:00.",
     //       },
     //       logprobs: null,
     //       finish_reason: "stop",
