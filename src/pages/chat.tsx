@@ -13,16 +13,13 @@ export default function Chat() {
         <title>FintechX Chat Atendimento</title>
       </Head>
       <main className="flex flex-col">
-        <section className="fixed top-0 pt-7 pb-5 px-6 bg-base-100 w-full flex justify-between items-center drop-shadow-sm">
+        <section className="fixed top-0 pt-7 pb-5 px-6 bg-base-100 w-full flex justify-center items-center drop-shadow-sm">
           <Link href="/intro">
-            <button className="btn btn-square">
+            <button className="btn btn-square absolute left-6 top-4">
               <Chevron />
             </button>
           </Link>
           <h2 className="text-3xl poppins-200">FintechX</h2>
-          <button className="btn btn-square btn-ghost">
-            <Dots />
-          </button>
         </section>
 
         <section className="min-h-screen max-w-screen-md flex flex-col justify-end py-24  m-auto w-full">
